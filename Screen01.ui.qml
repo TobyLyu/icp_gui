@@ -88,6 +88,7 @@ ApplicationWindow {
             button_save.enabled = true
             button_save.opacity = 1.0
         }
+        // @disable-check M223
         onRejected: {
             button_save.enabled = true
             button_save.opacity = 1.0
@@ -110,6 +111,7 @@ ApplicationWindow {
             button_save.enabled = true
             button_save.opacity = 1.0
         }
+        // @disable-check M223
         onRejected: {
             button_save.enabled = true
             button_save.opacity = 1.0
@@ -122,9 +124,9 @@ ApplicationWindow {
         y: 10
         anchors.horizontalCenter: init_panel.horizontalCenter
         width: header_mtcs.width
-        height: 28
+        height: 0.03 * parent.height
         text: qsTr("ICP Tools")
-        font.pixelSize: 24
+        font.pixelSize: 0.8 * height
         verticalAlignment: Text.AlignVCenter
         TextMetrics {
             id: header_mtcs
@@ -136,24 +138,26 @@ ApplicationWindow {
     Rectangle {
         id: v_line_0
         // x: 1540
-        y: 165
+        anchors.top: text_show_source_path.bottom
+        anchors.topMargin: 0.005 * parent.height
         anchors.left: init_panel.left
         width: parent.width * 0.195
-        height: 2
+        height: 0.002 * parent.height
         color: "#000000"
     }
 
     Button {
         id: button_open_target
         objectName: "button_open_target"
-        y: 78
         signal receivedInfo(string status)
         signal finished(bool status)
         anchors.right: init_panel.right
-        width: 63
-        height: 22
+        anchors.verticalCenter: voxel_size_target.verticalCenter
+        width: 0.033 * parent.width
+        height: text_show_target_path.height
         enabled: false
         opacity: 0.5
+        font.pixelSize: 0.6 * height
         text: qsTr("Open")
         // @disable-check M223
         onClicked: {
@@ -202,14 +206,14 @@ ApplicationWindow {
 
     Button {
         id: button_select_target
-        y: 49
-
+        // y: 49
+        anchors.top: header.bottom
         anchors.left: init_panel.left
+        anchors.topMargin: height * 0.15
         width: init_panel.width
-        height: 23
+        height: 0.023 * parent.height
         text: qsTr("Select Target")
-        Layout.preferredWidth: 250
-        Layout.preferredHeight: 23
+        font.pixelSize: 0.6 * height
         // @disable-check M223
         onClicked: {
             // @disable-check M222
@@ -220,12 +224,14 @@ ApplicationWindow {
     Text {
         id: text_show_target_path
         // x: 1540
-        y: 77
+        // y: 77
+        anchors.top: button_select_target.bottom
+        anchors.topMargin: height * 0.2
         anchors.left: init_panel.left
-        height: 23
+        height: 0.023 * parent.height
         width: button_select_target.width * 0.5
         text: qsTr("Please select target pcd")
-        font.pixelSize: 12
+        font.pixelSize: 0.5 * height
         verticalAlignment: Text.AlignVCenter
         rightPadding: 0
         Layout.preferredWidth: 250
@@ -238,8 +244,8 @@ ApplicationWindow {
         objectName: "voxel_size_target"
         anchors.left: text_show_target_path.right
         anchors.verticalCenter: text_show_target_path.verticalCenter
-        width: init_panel.width * 0.5 - 65
-        height: 23
+        width: init_panel.width * 0.33
+        height: text_show_target_path.height
         // anchors.left: parent.left
         Text {
             id: voxel_size_target_text
@@ -247,20 +253,20 @@ ApplicationWindow {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             text: qsTr("Voxel size")
-            font.pixelSize: 12
+            font.pixelSize: 0.5 * parent.height
         }
 
         TextInput {
             id: textInput_voxel_size_target
             anchors.right: parent.right
-            anchors.rightMargin: 5
+            anchors.rightMargin: 0.04 * parent.width
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width * 0.3
             // height: 20
             text: qsTr("0.05")
-            font.pixelSize: 12
-            rightPadding: -5
-            leftPadding: 5
+            font.pixelSize: 0.5 * parent.height
+            rightPadding: 0.15 * width
+            leftPadding: 0.15 * width
             selectByMouse: true
             Rectangle {
                 // x: sphere_handle.width / 2
@@ -273,7 +279,9 @@ ApplicationWindow {
                 color: "#00d3d3d3"
             }
 
-            validator: DoubleValidator {}
+            validator: DoubleValidator {
+                bottom: 0
+            }
             // @disable-check M223
             onEditingFinished: {
                 // @disable-check M222
@@ -289,10 +297,12 @@ ApplicationWindow {
         signal receivedInfo(string status)
         signal finished(bool status)
         anchors.right: init_panel.right
-        width: 63
-        height: 22
+        anchors.verticalCenter: text_show_source_path.verticalCenter
+        width: 0.033 * parent.width
+        height: text_show_source_path.height
         enabled: false
         opacity: 0.5
+        font.pixelSize: 0.6 * height
         text: qsTr("Open")
         // @disable-check M223
         onClicked: {
@@ -344,8 +354,8 @@ ApplicationWindow {
         objectName: "voxel_size_source"
         anchors.left: text_show_source_path.right
         anchors.verticalCenter: text_show_source_path.verticalCenter
-        width: init_panel.width * 0.5 - 65
-        height: 23
+        width: init_panel.width * 0.33
+        height: 0.023 * parent.height
         // anchors.left: parent.left
         Text {
             id: voxel_size_source_text
@@ -353,20 +363,20 @@ ApplicationWindow {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             text: qsTr("Voxel size")
-            font.pixelSize: 12
+            font.pixelSize: 0.5 * parent.height
         }
 
         TextInput {
             id: textInput_voxel_size_source
             anchors.right: parent.right
-            anchors.rightMargin: 5
+            anchors.rightMargin: 0.04 * parent.width
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width * 0.3
             // height: 20
             text: qsTr("0.05")
-            font.pixelSize: 12
-            rightPadding: -5
-            leftPadding: 5
+            font.pixelSize: 0.5 * parent.height
+            rightPadding: 0.15 * width
+            leftPadding: 0.15 * width
             selectByMouse: true
             Rectangle {
                 // x: sphere_handle.width / 2
@@ -378,7 +388,9 @@ ApplicationWindow {
                 border.width: 1
                 color: "#00d3d3d3"
             }
-            validator: DoubleValidator {}
+            validator: DoubleValidator {
+                bottom: 0
+            }
             // @disable-check M223
             onEditingFinished: {
                 // @disable-check M222
@@ -390,13 +402,14 @@ ApplicationWindow {
     Button {
         id: button_select_source
         // x: 1540
-        y: 105
+        // y: 105
         anchors.left: init_panel.left
         width: init_panel.width
-        height: 23
+        height: 0.023 * parent.height
+        anchors.top: text_show_target_path.bottom
+        anchors.topMargin: height * 0.2
         text: qsTr("Select Source")
-        Layout.preferredWidth: 250
-        Layout.preferredHeight: 23
+        font.pixelSize: 0.6 * height
         // @disable-check M223
         onClicked: {
             // @disable-check M222
@@ -407,26 +420,27 @@ ApplicationWindow {
     Text {
         id: text_show_source_path
         // x: 1540
-        y: 133
+        anchors.top: button_select_source.bottom
+        anchors.topMargin: height * 0.2
         width: button_select_source.width * 0.5
         anchors.left: init_panel.left
-        height: 23
+        height: 0.023 * parent.height
         text: qsTr("Please select source pcd")
-        font.pixelSize: 12
         verticalAlignment: Text.AlignVCenter
-        Layout.preferredWidth: 250
-        Layout.preferredHeight: 23
+        font.pixelSize: 0.5 * height
         clip: true
     }
 
     Text {
         id: _text_initial_transformation
         // x: 1540
-        y: 173
-        height: 23
+        // y: 173
+        anchors.top: v_line_0.bottom
+        anchors.topMargin: parent.height * 0.003
+        height: 0.025 * parent.height
         anchors.horizontalCenter: init_panel.horizontalCenter
         text: qsTr("Initial Transformation")
-        font.pixelSize: 15
+        font.pixelSize: 0.6 * height
         verticalAlignment: Text.AlignVCenter
     }
 
@@ -434,11 +448,12 @@ ApplicationWindow {
         id: init_panel
         objectName: "init_panel"
         // x: 1540
-        y: 202
         // width: 400
         // rows: 6
         // columns: 1
         width: parent.width * 0.195
+        anchors.top: _text_initial_transformation.bottom
+        anchors.topMargin: 0.1 * _text_initial_transformation.height
         height: parent.height * 0.3
         anchors.right: parent.right
         anchors.rightMargin: parent.width * 0.003
@@ -501,7 +516,7 @@ ApplicationWindow {
 
                     objectName: "_text_" + index
                     text: qsTr(model.text)
-                    font.pixelSize: 15
+                    font.pixelSize: parent.height * 0.3
                     verticalAlignment: Text.AlignVCenter
                     // Layout.fillHeight: true
                     // Layout.preferredWidth: parent.width * 0.1
@@ -553,9 +568,9 @@ ApplicationWindow {
                         id: sphere_handle
                         x: parent.visualPosition * (parent.width - width)
                         y: (parent.height - height) / 2
-                        width: 15
-                        height: 15
-                        radius: 15
+                        width: 0.3 * parent.height
+                        height: 0.3 * parent.height
+                        radius: 0.3 * parent.height
                         color: "gray"
                     }
                     background: Rectangle {
@@ -563,8 +578,8 @@ ApplicationWindow {
                         x: sphere_handle.width / 2
                         y: (parent.height - height) / 2
                         width: parent.width - sphere_handle.width
-                        height: 6
-                        radius: 2
+                        height: 0.1 * parent.height
+                        radius: 0.2 * parent.height
                         color: "lightgray"
 
                         Rectangle {
@@ -574,9 +589,9 @@ ApplicationWindow {
                             y: (parent.height - height) / 2
                             width: Math.abs(
                                        parent.parent.visualPosition - 0.5) * parent.width
-                            height: 6
+                            height: parent.height
                             color: model.color
-                            radius: 2
+                            radius: parent.radius
                         }
                     }
                     // @disable-check M222
@@ -590,7 +605,9 @@ ApplicationWindow {
                         width: low_bond_mtcs.width
                         anchors.left: parent.left
                         selectByMouse: true
-                        font.pixelSize: 12
+                        font.pixelSize: 0.22 * parent.height
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                         validator: DoubleValidator {}
                         TextMetrics {
                             id: low_bond_mtcs
@@ -604,7 +621,9 @@ ApplicationWindow {
                         width: high_bond_mtcs.width
                         anchors.right: parent.right
                         selectByMouse: true
-                        font.pixelSize: 12
+                        font.pixelSize: 0.22 * parent.height
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                         validator: DoubleValidator {}
                         TextMetrics {
                             id: high_bond_mtcs
@@ -619,16 +638,16 @@ ApplicationWindow {
                     objectName: "_textInput_" + index
                     text: qsTr("0.0000")
                     enabled: true
-                    font.pixelSize: 12
+                    font.pixelSize: 0.3 * parent.height
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
-                    rightPadding: 5
-                    leftPadding: 10
+                    rightPadding: 0.01 * parent.width
+                    leftPadding: 0.02 * parent.width
                     selectByMouse: true
                     // Layout.preferredHeight: 23
                     // Layout.preferredWidth: 25
                     height: parent.height
-                    width: parent.width * 0.12 + 15
+                    width: parent.width * 0.16
 
                     anchors.right: parent.right
                     // anchors.leftMargin: parent.width * 0.03
@@ -702,8 +721,9 @@ ApplicationWindow {
         id: reset_disp
         objectName: "reset_disp"
         text: qsTr("Reset")
-        width: 63
-        height: 22
+        width: 0.04 * parent.width
+        height: 0.02 * parent.height
+        font.pixelSize: 0.7 * height
         anchors.left: change_disp_mode.right
         // @disable-check M223
         onClicked: {
@@ -723,8 +743,9 @@ ApplicationWindow {
         id: change_disp_mode
         objectName: "change_disp_mode"
         text: qsTr("Pop!")
-        width: 63
-        height: 22
+        width: 0.04 * parent.width
+        height: 0.02 * parent.height
+        font.pixelSize: 0.7 * height
         // @disable-check M223
         onClicked: {
             // @disable-check M222
@@ -797,14 +818,26 @@ ApplicationWindow {
         id: _switch_live_draw
         // width: 144
         height: _text_initial_transformation.height
+        width: 0.075 * parent.width
         text: qsTr("Live Draw")
-        font.pixelSize: 15
+        font.pixelSize: 0.6 * height
         anchors.verticalCenterOffset: 0
         anchors.verticalCenter: _text_initial_transformation.verticalCenter
-        anchors.right: init_panel.right
-        anchors.rightMargin: -21
+        anchors.right: button_open_target.right
+        anchors.rightMargin: -width * 0.15
         scale: 0.7
         checked: true
+        Binding {
+            target: _switch_live_draw.indicator
+            property: 'width'
+            value: _switch_live_draw.width * 0.3
+        }
+
+        Binding {
+            target: (_switch_live_draw.indicator ? _switch_live_draw.indicator.children[0] : null)
+            property: 'width'
+            value: _switch_live_draw.width * 0.3
+        }
         // @disable-check M223
         onCheckedChanged: {
             _live_draw = checked
@@ -824,9 +857,12 @@ ApplicationWindow {
         enabled: false
         opacity: 0.0
         text: qsTr("Stop!")
+        font.pixelSize: 0.5 * height
+        // @disable-check M223
         onClicked: {
             button_stop.enabled = false
             button_stop.opacity = 0.5
+            // @disable-check M222
             backend.stop_icp()
         }
     }
@@ -840,6 +876,7 @@ ApplicationWindow {
         opacity: 0.5
         anchors.left: init_panel.left
         anchors.top: icp_panel.bottom
+        font.pixelSize: 0.5 * height
         signal finished(string status)
         signal processing(string status)
         // signal succeed(bool status)
@@ -917,6 +954,7 @@ ApplicationWindow {
         flat: false
         selectTextByMouse: false
         editable: false
+        font.pixelSize: 0.45 * height
         model: ListModel {
             id: save_model
             ListElement {
@@ -931,6 +969,7 @@ ApplicationWindow {
             // @disable-check M223
             button_save.enabled = false
             button_save.opacity = 0.5
+            // @disable-check M223
             if (currentIndex === 0) {
                 // @disable-check M222
                 save_trans_fileDialog.open()
@@ -955,8 +994,8 @@ ApplicationWindow {
             objectName: "text_info"
             width: text_info_scroll.width
             height: text_info_scroll.height
-            text: qsTr("")
-            font.pixelSize: 12
+            text: qsTr("Hello!")
+            font.pixelSize: 0.04 * height
             wrapMode: Text.Wrap
             padding: 5
             Rectangle {
@@ -976,10 +1015,10 @@ ApplicationWindow {
         // x: 1540
         // y: 173
         anchors.top: init_panel.bottom
-        height: 23
+        height: 0.023 * parent.height
         anchors.horizontalCenter: init_panel.horizontalCenter
         text: qsTr("ICP Param")
-        font.pixelSize: 15
+        font.pixelSize: 0.6 * height
         verticalAlignment: Text.AlignVCenter
     }
 
@@ -1034,7 +1073,7 @@ ApplicationWindow {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     text: qsTr(model.text)
-                    font.pixelSize: 15
+                    font.pixelSize: 0.4 * parent.height
                 }
 
                 TextInput {
@@ -1045,15 +1084,15 @@ ApplicationWindow {
                     width: parent.width * 0.2
                     // height: 20
                     text: qsTr(model.init_value)
-                    font.pixelSize: 12
+                    font.pixelSize: 0.3 * parent.height
                     selectByMouse: true
                     Rectangle {
                         // x: sphere_handle.width / 2
                         // anchors.left: parent.left - 5
-                        x: -5
-                        y: -5
-                        width: parent.width + 10
-                        height: parent.height + 10
+                        x: -0.1 * parent.width
+                        y: -0.1 * parent.width
+                        width: parent.width - 2 * x
+                        height: parent.height - 2 * y
                         radius: 1
                         border.width: 1
                         color: "#00d3d3d3"
