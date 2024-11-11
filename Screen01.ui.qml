@@ -817,26 +817,33 @@ ApplicationWindow {
     Switch {
         id: _switch_live_draw
         // width: 144
-        height: _text_initial_transformation.height
-        width: 0.075 * parent.width
+        height: _text_initial_transformation.height * 0.7
+        width: 0.05 * parent.width
         text: qsTr("Live Draw")
-        font.pixelSize: 0.6 * height
+        font.pixelSize: 0.5 * height
         anchors.verticalCenterOffset: 0
         anchors.verticalCenter: _text_initial_transformation.verticalCenter
         anchors.right: button_open_target.right
-        anchors.rightMargin: -width * 0.15
-        scale: 0.7
+        // leftPadding: width * 0.1
+        // anchors.rightMargin: -width * 0.15
         checked: true
-        Binding {
-            target: _switch_live_draw.indicator
-            property: 'width'
-            value: _switch_live_draw.width * 0.3
-        }
-
-        Binding {
-            target: (_switch_live_draw.indicator ? _switch_live_draw.indicator.children[0] : null)
-            property: 'width'
-            value: _switch_live_draw.width * 0.3
+        indicator: Rectangle {
+            width: parent.width * 0.25
+            height: parent.height * 0.7
+            x: parent.width - width
+            y: parent.height / 2 - height / 2
+            radius: width * 0.5
+            color: _switch_live_draw.checked ? "green" : "red"
+            border.color: "black"
+            anchors.left: parent.left
+            Rectangle {
+                x: _switch_live_draw.checked ? parent.width - width : 0
+                y: parent.height / 2 - height / 2
+                width: parent.height
+                height: parent.height
+                radius: width * 0.5
+                border.color: "black"
+            }
         }
         // @disable-check M223
         onCheckedChanged: {
