@@ -48,7 +48,7 @@ class Backend(QObject):
     _valueChanged = Signal()
     def __init__(self, root_object, image_P):
         super().__init__()
-        o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Debug)
+        # o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Debug)
         self.root_object = root_object
         self.image_P = image_P
 

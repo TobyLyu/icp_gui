@@ -2,6 +2,7 @@
 ## Installation
 Python Version: `3.9.20`
 ```
+sudo apt-get install libxcb-cursor0
 pip3 install -r requirements.txt
 ```
 ## Usage
