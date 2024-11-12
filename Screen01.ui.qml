@@ -740,6 +740,35 @@ ApplicationWindow {
     }
 
     Button {
+        id: reset_init
+        anchors.left: init_panel.left
+        anchors.verticalCenter: _text_initial_transformation.verticalCenter
+        width: reset_disp.width
+        height: reset_disp.height
+        text: qsTr("Reset")
+        font.pixelSize: 0.7 * height
+        // @disable-check M223
+        onClicked: {
+            reset_init.enabled = false
+            reset_init.opacity = 0.5
+            // @disable-check M222
+            backend.reset_init()
+            // @disable-check M222
+            update_panel.triggered()
+            // @disable-check M223
+            if (!_live_draw) {
+                // @disable-check M222
+                backend.update_render()
+                // Force the Image to refresh by changing the source URL
+                o3d_image.source = "image://open3d/scene?" + Date.now()
+            }
+            // update_panel.running = false
+            reset_init.enabled = true
+            reset_init.opacity = 1.0
+        }
+    }
+
+    Button {
         id: change_disp_mode
         objectName: "change_disp_mode"
         text: qsTr("Pop!")

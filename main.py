@@ -122,8 +122,14 @@ class Backend(QObject):
         
     @Slot(result=str)
     def reset_disp(self):
-        self.image_P.vis.reset_view_point()
+        self.image_P.vis.reset_view_point(reset_bounding_box=True)
         self.view = self.image_P.vis.get_view_status()
+         
+    @Slot(result=str)
+    def reset_init(self):
+        self.transformation = np.eye(4)
+        self.update_init_result()
+        self.update_gui_value()
          
     @Slot(str, result=float)
     def get_value(self, axis):
@@ -167,11 +173,15 @@ class Backend(QObject):
             msg += "PCD file dose not contain any points!"
             this_object.receivedInfo.emit(msg)
             return scans
-        msg += "Downsampling ... Voxel size is {}\n".format(voxel_size)
-        this_object.receivedInfo.emit(msg)
-        print("Downsampling {} ... ".format(filename))
-        scans_d = scans.voxel_down_sample(voxel_size=voxel_size)
-        scans_t_d = scans_t.voxel_down_sample(voxel_size=voxel_size)
+        if voxel_size > 0:
+            msg += "Downsampling ... Voxel size is {}\n".format(voxel_size)
+            this_object.receivedInfo.emit(msg)
+            print("Downsampling {} ... ".format(filename))
+            scans_d = scans.voxel_down_sample(voxel_size=voxel_size)
+            scans_t_d = scans_t.voxel_down_sample(voxel_size=voxel_size)
+        else:
+            scans_d = scans
+            scans_t_d = scans_t
         # msg += "Re-calculate normals ...\n"
         # this_object.receivedInfo.emit(msg)
         # print("Re-calculate normals ...")
@@ -194,6 +204,7 @@ class Backend(QObject):
         elif item == "source":
             self.source_pcd, self.source_pcd_t = self._load_file_(self.source_path, this_object, self.source_voxel_size)
             self.source_pcd.paint_uniform_color([1, 0.706, 0])
+        self.update_init_result()
         this_object.finished.emit(True)
     
     @Slot(str, result=bool)
